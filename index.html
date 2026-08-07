@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="rejuvenated.css" />
+  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="rejuvenated.css?v=4" />
 </head>
 <body>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -49,9 +49,17 @@
   <dialog id="relicDialog">
     <button class="close" aria-label="Close">×</button><div id="dialogIcon" class="modal-icon"></div><span id="dialogTier" class="section-kicker"></span><h2 id="dialogName"></h2><div id="dialogText"></div><button id="modalSelect" class="modal-select"></button>
   </dialog>
+  <dialog id="saveDialog" class="save-dialog">
+    <button id="closeSave" class="close" aria-label="Close">×</button>
+    <span class="section-kicker">YOUR RELIC BUILD</span>
+    <h2>Save your build card</h2>
+    <p>Press and hold the image, then choose <strong>Save to Photos</strong>. You can also use the button below to open the iPhone share sheet.</p>
+    <img id="savePreview" alt="Your Equilibrium relic build card">
+    <button id="shareBuild" class="modal-select" type="button">Share / Save image</button>
+  </dialog>
   <div id="toast" role="status">Build card downloaded</div>
   <canvas id="exportCanvas" width="1600" height="900" hidden></canvas>
-  <script src="icon-data.js"></script>
-  <script src="app.js"></script>
+  <script src="icon-data.js?v=2"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
