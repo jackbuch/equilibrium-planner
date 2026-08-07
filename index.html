@@ -4,46 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#071d18" />
-  <title>Equilibrium Relic Planner</title>
+  <title>Equilibrium League Planner</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=4" />
   <link rel="stylesheet" href="rejuvenated.css?v=8" />
+  <link rel="stylesheet" href="blessings.css?v=1" />
 </head>
 <body>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
   <header class="hero">
     <nav>
-      <a class="brand" href="#"><span class="brand-mark">III</span><span>EQUILIBRIUM<br><small>RELIC PLANNER</small></span></a>
+      <a class="brand" href="#"><span class="brand-mark">III</span><span>EQUILIBRIUM<br><small>LEAGUE PLANNER</small></span></a>
       <div class="progress-wrap"><span id="progressText">0 of 7 selected</span><div class="progress"><i id="progressBar"></i></div><button id="resetPicks" type="button" aria-label="Reset all relic picks">Reset picks</button></div>
     </nav>
     <div class="eyebrow"><span></span> LEAGUES II <span></span></div>
     <h1>Carve your own<br><em>path through Gielinor</em></h1>
-    <p>Choose one relic from every tier. Explore each power, commit to your build, then forge a shareable relic card.</p>
-    <a class="start" href="#planner">Begin planning <span>↓</span></a>
+    <p id="heroCopy">Choose one relic from every tier. Explore each power, commit to your build, then forge a shareable relic card.</p>
+    <div class="planner-switch" role="tablist" aria-label="Choose a planner">
+      <button type="button" role="tab" id="relicsTab" data-planner-view="relics" aria-controls="relicPlanner" aria-selected="true">Relics</button>
+      <button type="button" role="tab" id="blessingsTab" data-planner-view="blessings" aria-controls="blessingPlanner" aria-selected="false">Blessings</button>
+    </div>
   </header>
 
   <main id="planner">
-    <section class="intro">
-      <div><span class="section-kicker">THE RELIC ARCHIVE</span><h2>Seven choices.<br>One legendary build.</h2></div>
-      <p>Your selections save automatically in this browser. Tap a relic to select it, or use the <b>i</b> button to inspect its effects.</p>
-    </section>
-    <div id="tiers" class="tiers"></div>
-    <section class="rejuvenated-panel" id="rejuvenatedPanel" hidden>
-      <div class="rejuvenated-gem">✦</div>
-      <div>
-        <span class="section-kicker">REJUVENATED BONUS</span>
-        <h3 id="rejuvenatedTitle">Choose one more relic</h3>
-        <p id="rejuvenatedCopy">Select any relic you did not choose from tiers 1–5.</p>
-      </div>
-      <button id="changeBonus" type="button">Choose bonus relic</button>
-    </section>
-    <section class="forge" id="forge">
-      <div><span class="section-kicker">YOUR LEGACY</span><h2 id="forgeTitle">Complete your build</h2><p id="forgeCopy">Choose one relic from each of the seven tiers to unlock your shareable relic card.</p></div>
-      <button id="download" disabled><span>Forge build card</span><small>DOWNLOAD PNG</small></button>
-    </section>
-    <p class="data-credit">Relic effects and icons from <a href="https://runescape.wiki/w/Equilibrium_League/Relics" target="_blank" rel="noreferrer">The RuneScape Wiki</a>, licensed under CC BY-NC-SA 3.0.</p>
+    <div id="relicPlanner" class="planner-view" role="tabpanel" aria-labelledby="relicsTab">
+      <section class="intro">
+        <div><span class="section-kicker">THE RELIC ARCHIVE</span><h2>Seven choices.<br>One legendary build.</h2></div>
+        <p>Your selections save automatically in this browser. Tap a relic to select it, or use the <b>i</b> button to inspect its effects.</p>
+      </section>
+      <div id="tiers" class="tiers"></div>
+      <section class="rejuvenated-panel" id="rejuvenatedPanel" hidden>
+        <div class="rejuvenated-gem">✦</div>
+        <div>
+          <span class="section-kicker">REJUVENATED BONUS</span>
+          <h3 id="rejuvenatedTitle">Choose one more relic</h3>
+          <p id="rejuvenatedCopy">Select any relic you did not choose from tiers 1–5.</p>
+        </div>
+        <button id="changeBonus" type="button">Choose bonus relic</button>
+      </section>
+      <section class="forge" id="forge">
+        <div><span class="section-kicker">YOUR LEGACY</span><h2 id="forgeTitle">Complete your build</h2><p id="forgeCopy">Choose one relic from each of the seven tiers to unlock your shareable relic card.</p></div>
+        <button id="download" disabled><span>Forge build card</span><small>DOWNLOAD PNG</small></button>
+      </section>
+      <p class="data-credit">Relic effects and icons from <a href="https://runescape.wiki/w/Equilibrium_League/Relics" target="_blank" rel="noreferrer">The RuneScape Wiki</a>, licensed under CC BY-NC-SA 3.0.</p>
+    </div>
+
+    <div id="blessingPlanner" class="planner-view" role="tabpanel" aria-labelledby="blessingsTab" hidden>
+      <section class="intro blessing-intro">
+        <div><span class="section-kicker">THE BLESSING PATHS</span><h2>Six choices.<br>Two divine outcomes.</h2></div>
+        <p>Choose one Chaos, Balance, or Order blessing from each tier. Your three preceding paths automatically determine each God-tier blessing.</p>
+      </section>
+      <section class="blessing-path-summary" aria-label="Blessing path totals">
+        <div class="path-score chaos"><span>Chaos</span><strong id="chaosCount">0</strong></div>
+        <div class="path-score balance"><span>Balance</span><strong id="balanceCount">0</strong></div>
+        <div class="path-score order"><span>Order</span><strong id="orderCount">0</strong></div>
+        <p id="godForecast">God Tier I awaits Tiers 1–3. God Tier II awaits Tiers 4–6.</p>
+      </section>
+      <div id="blessingTiers" class="tiers blessing-tiers"></div>
+      <section class="forge blessing-forge" id="blessingForge">
+        <div><span class="section-kicker">YOUR DIVINE PATH</span><h2 id="blessingForgeTitle">Complete your blessing path</h2><p id="blessingForgeCopy">Choose one blessing from each of the six standard tiers to reveal both God-tier blessings.</p></div>
+        <button id="downloadBlessings" disabled><span>Forge blessing card</span><small>DOWNLOAD PNG</small></button>
+      </section>
+      <p class="data-credit">Blessing effects and icons from <a href="https://runescape.wiki/w/Equilibrium_League/Blessings" target="_blank" rel="noreferrer">The RuneScape Wiki</a>, licensed under CC BY-NC-SA 3.0.</p>
+    </div>
   </main>
 
   <dialog id="relicDialog">
@@ -51,15 +76,26 @@
   </dialog>
   <dialog id="saveDialog" class="save-dialog">
     <button id="closeSave" class="close" aria-label="Close">×</button>
-    <span class="section-kicker">YOUR RELIC BUILD</span>
-    <h2>Save your build card</h2>
-    <p>Press and hold the image, then choose <strong>Save to Photos</strong>. You can also use the button below to open the iPhone share sheet.</p>
+    <span id="saveKicker" class="section-kicker">YOUR RELIC BUILD</span>
+    <h2 id="saveHeading">Save your build card</h2>
+    <p id="saveCopy">Press and hold the image, then choose <strong>Save to Photos</strong>. You can also use the button below to open the iPhone share sheet.</p>
     <img id="savePreview" alt="Your Equilibrium relic build card">
     <button id="shareBuild" class="modal-select" type="button">Share / Save image</button>
   </dialog>
+  <dialog id="blessingDialog">
+    <button id="closeBlessing" class="close" aria-label="Close">×</button>
+    <div id="blessingDialogIcon" class="modal-icon blessing-modal-icon"></div>
+    <span id="blessingDialogTier" class="section-kicker"></span>
+    <h2 id="blessingDialogName"></h2>
+    <div id="blessingDialogText"></div>
+    <button id="blessingModalSelect" class="modal-select" type="button"></button>
+  </dialog>
   <div id="toast" role="status">Build card downloaded</div>
   <canvas id="exportCanvas" width="1600" height="900" hidden></canvas>
+  <canvas id="blessingCanvas" width="1600" height="1000" hidden></canvas>
   <script src="icon-data.js?v=2"></script>
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=7"></script>
+  <script src="blessing-icon-data.js?v=1"></script>
+  <script src="blessings.js?v=1"></script>
 </body>
 </html>

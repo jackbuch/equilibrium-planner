@@ -1,0 +1,205 @@
+.hero { min-height: auto; padding-bottom: 64px; }
+.hero::after { display: none; }
+
+.planner-switch {
+  width: min(610px, 100%);
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid rgba(151, 218, 186, .25);
+  background: rgba(4, 17, 14, .56);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+}
+
+.planner-switch button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: #78988a;
+  padding: 15px 20px;
+  font: 700 10px Inter, sans-serif;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color .2s, background .2s, box-shadow .2s;
+}
+
+.planner-switch button + button { border-left: 1px solid rgba(151, 218, 186, .16); }
+.planner-switch button:hover,
+.planner-switch button:focus-visible { color: #e4bb67; background: rgba(228, 187, 103, .06); outline: none; }
+.planner-switch button[aria-selected="true"] {
+  color: #f2d68f;
+  background: linear-gradient(180deg, rgba(228, 187, 103, .13), rgba(30, 90, 68, .08));
+  box-shadow: inset 0 -2px #e4bb67;
+}
+
+.planner-view[hidden] { display: none !important; }
+.blessing-intro { margin-bottom: 28px; }
+
+.blessing-path-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--line);
+  background: linear-gradient(100deg, rgba(13, 43, 34, .9), rgba(7, 27, 21, .76));
+  margin-bottom: 22px;
+}
+
+.path-score {
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-right: 1px solid var(--line);
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: .18em;
+}
+.path-score:nth-child(3) { border-right: 0; }
+.path-score strong { font: 600 25px Cinzel, serif; }
+.path-score.chaos { color: #ef7770; }
+.path-score.balance { color: #65dcb0; }
+.path-score.order { color: #71b7ff; }
+.blessing-path-summary > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 14px 22px;
+  border-top: 1px solid var(--line);
+  color: #91a99f;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.blessing-tier { grid-template-columns: 160px 1fr; }
+.blessing-tier .tier-label { min-height: 210px; }
+.blessing-tier .tier-label small {
+  color: #648579;
+  font: 600 8px Inter, sans-serif;
+  letter-spacing: .12em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+.blessing-tier.god-tier {
+  border-color: rgba(228, 187, 103, .38);
+  background: linear-gradient(100deg, rgba(52, 50, 25, .9), rgba(12, 36, 28, .78));
+}
+.blessing-tier.god-tier .tier-label strong { color: #9c8147; font-size: 34px; }
+
+.blessing-card {
+  position: relative;
+  padding: 25px 20px 22px;
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .25s, box-shadow .25s, opacity .25s;
+}
+.blessing-card:last-child { border-right: 0; }
+.blessing-card:hover { background: rgba(20, 61, 47, .92); }
+.blessing-card h3 { font: 600 14px Cinzel, serif; margin: 0; letter-spacing: .03em; }
+.blessing-card .info { position: absolute; }
+.blessing-icon {
+  width: 88px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 13px;
+  filter: drop-shadow(0 9px 15px rgba(0, 0, 0, .48));
+}
+.blessing-icon img,
+.blessing-modal-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.blessing-path {
+  margin-top: 8px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.blessing-card[data-path="Chaos"] .blessing-path { color: #ef7770; }
+.blessing-card[data-path="Balance"] .blessing-path { color: #65dcb0; }
+.blessing-card[data-path="Order"] .blessing-path { color: #71b7ff; }
+.blessing-card[data-path="Chaos"].selected { background: rgba(128, 38, 34, .23); box-shadow: inset 0 -2px #e9635b; }
+.blessing-card[data-path="Balance"].selected { background: rgba(34, 128, 95, .25); box-shadow: inset 0 -2px #54e6b4; }
+.blessing-card[data-path="Order"].selected { background: rgba(48, 91, 148, .25); box-shadow: inset 0 -2px #71b7ff; }
+.blessing-card.selected::after {
+  content: "SELECTED";
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  color: #e9d397;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+.god-tier .blessing-card.selected::after { content: "GOD PATH"; }
+.blessing-card.god-locked { opacity: .43; }
+.blessing-card.god-locked:hover { background: rgba(228, 187, 103, .05); }
+.blessing-card.god-locked::before {
+  content: "LOCKED";
+  position: absolute;
+  left: 13px;
+  top: 13px;
+  color: #718d81;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.blessing-forge button { transition: transform .2s, border-color .2s, background .2s, box-shadow .2s; }
+.blessing-forge button:not(:disabled):hover,
+.blessing-forge button:not(:disabled):focus-visible {
+  border-color: #f0ce83;
+  background: linear-gradient(135deg, #f1cf84, #bd8d3d);
+  box-shadow: 0 9px 24px rgba(228, 187, 103, .22), inset 0 0 0 1px rgba(255, 239, 194, .22);
+  transform: translateY(-2px);
+  outline: none;
+}
+.blessing-forge button:not(:disabled):active { transform: translateY(0); }
+
+#blessingDialogText { color: #b5c9c0; line-height: 1.7; font-size: 14px; }
+#blessingDialogText h3 {
+  margin: 22px 0 8px;
+  color: #e4bb67;
+  font: 700 9px Inter, sans-serif;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+#blessingDialogText p { padding-left: 17px; position: relative; }
+#blessingDialogText p::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  left: 0;
+  top: 9px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+@media (max-width: 760px) {
+  .hero { min-height: auto; padding-bottom: 52px; }
+  .planner-switch { width: calc(100% - 8px); }
+  .blessing-path-summary { grid-template-columns: 1fr; }
+  .path-score { border-right: 0; border-bottom: 1px solid var(--line); }
+  .path-score:nth-child(3) { border-bottom: 0; }
+  .blessing-path-summary > p { grid-column: 1; }
+  .blessing-tier { grid-template-columns: 1fr; }
+  .blessing-tier .tier-label { min-height: auto; }
+  .blessing-card {
+    min-height: 128px;
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    padding: 18px;
+    text-align: left;
+  }
+  .blessing-icon { margin: 0; grid-row: 1 / 3; }
+  .blessing-card h3,
+  .blessing-card .blessing-path { grid-column: 2; }
+  .blessing-card .blessing-path { margin-top: 5px; }
+}
