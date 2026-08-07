@@ -69,6 +69,16 @@
 }
 
 .modal-select:disabled { filter: grayscale(1); opacity: .45; cursor: default; }
+html { scrollbar-gutter: stable; }
+body.modal-open {
+  position: fixed;
+  top: var(--locked-scroll-y);
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: hidden;
+  padding-right: var(--scrollbar-compensation, 0px);
+}
 #download { transition: transform .2s, border-color .2s, background .2s, box-shadow .2s; }
 #download:not(:disabled):hover,
 #download:not(:disabled):focus-visible {
