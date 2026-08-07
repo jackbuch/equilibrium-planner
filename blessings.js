@@ -124,6 +124,11 @@ try { selectedBlessings = JSON.parse(localStorage.getItem('equilibrium-blessing-
 for (let tier = 1; tier <= 6; tier++) {
   if (!blessings.some(item => item.kind === 'tier' && item.tier === tier && item.name === selectedBlessings[tier])) delete selectedBlessings[tier];
 }
+let randomizedBlessingBuild = localStorage.getItem('equilibrium-blessing-randomized') === 'true';
+if (![1, 2, 3, 4, 5, 6].every(tier => selectedBlessings[tier])) {
+  randomizedBlessingBuild = false;
+  localStorage.removeItem('equilibrium-blessing-randomized');
+}
 
 const blessingIconCache = new Map();
 let blessingIconsReady = false;
@@ -190,6 +195,10 @@ function renderBlessingTiers() {
 }
 
 function pickBlessing(item) {
+  if (selectedBlessings[item.tier] !== item.name) {
+    randomizedBlessingBuild = false;
+    localStorage.removeItem('equilibrium-blessing-randomized');
+  }
   selectedBlessings[item.tier] = item.name;
   localStorage.setItem('equilibrium-blessing-picks', JSON.stringify(selectedBlessings));
   updateBlessingPlanner();
@@ -261,11 +270,28 @@ function updateBlessingPlanner() {
 function resetBlessingPicks() {
   selectedBlessings = {};
   localStorage.removeItem('equilibrium-blessing-picks');
+  randomizedBlessingBuild = false;
+  localStorage.removeItem('equilibrium-blessing-randomized');
   if (blessingDialog.open) blessingDialog.close();
   updateBlessingPlanner();
   showToast('All blessing picks reset');
 }
 window.resetBlessingPicks = resetBlessingPicks;
+
+function randomizeBlessingPicks() {
+  selectedBlessings = {};
+  for (let tier = 1; tier <= 6; tier++) {
+    const choices = blessings.filter(item => item.kind === 'tier' && item.tier === tier);
+    selectedBlessings[tier] = choices[Math.floor(Math.random() * choices.length)].name;
+  }
+  localStorage.setItem('equilibrium-blessing-picks', JSON.stringify(selectedBlessings));
+  randomizedBlessingBuild = true;
+  localStorage.setItem('equilibrium-blessing-randomized', 'true');
+  if (blessingDialog.open) blessingDialog.close();
+  updateBlessingPlanner();
+  showToast('Blessings randomized');
+}
+window.randomizeBlessingPicks = randomizeBlessingPicks;
 
 document.querySelector('#closeBlessing').onclick = () => blessingDialog.close();
 blessingDialog.onclick = event => { if (event.target === blessingDialog) blessingDialog.close(); };
@@ -282,8 +308,9 @@ function activatePlanner(view, persist = true) {
   document.querySelector('#heroCopy').textContent = blessingView
     ? 'Choose six blessings across Chaos, Balance, and Order. Your path determines two God-tier powers and a shareable blessing card.'
     : 'Choose one relic from every tier. Explore each power, commit to your build, then forge a shareable relic card.';
-  document.querySelector('#resetPicks').textContent = blessingView ? 'Reset blessings' : 'Reset picks';
+  document.querySelector('#resetPicks').textContent = 'Reset';
   document.querySelector('#resetPicks').setAttribute('aria-label', blessingView ? 'Reset all blessing picks' : 'Reset all relic picks');
+  document.querySelector('#randomizePicks').setAttribute('aria-label', blessingView ? 'Randomize all blessing picks' : 'Randomize all relic picks');
   if (blessingView) updateBlessingPlanner();
   else window.refreshRelicPlanner?.();
 }
@@ -336,6 +363,7 @@ document.querySelector('#downloadBlessings').onclick = () => {
   ctx.fillStyle = '#8fb4a3';
   ctx.font = '18px Arial';
   ctx.fillText('Six choices. Two God-tier outcomes. One divine path.', 800, 202);
+  if (randomizedBlessingBuild) drawRandomizedBadge(ctx, 1600);
 
   const chosenStages = blessingStages.map(stage => ({
     stage,
