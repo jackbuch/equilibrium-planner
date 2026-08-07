@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#071d18" />
+  <title>Equilibrium Relic Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="rejuvenated.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="hero">
+    <nav>
+      <a class="brand" href="#"><span class="brand-mark">III</span><span>EQUILIBRIUM<br><small>RELIC PLANNER</small></span></a>
+      <div class="progress-wrap"><span id="progressText">0 of 7 selected</span><div class="progress"><i id="progressBar"></i></div><button id="resetPicks" type="button" aria-label="Reset all relic picks">Reset picks</button></div>
+    </nav>
+    <div class="eyebrow"><span></span> LEAGUES II <span></span></div>
+    <h1>Carve your own<br><em>path through Gielinor</em></h1>
+    <p>Choose one relic from every tier. Explore each power, commit to your build, then forge a shareable relic card.</p>
+    <a class="start" href="#planner">Begin planning <span>↓</span></a>
+  </header>
+
+  <main id="planner">
+    <section class="intro">
+      <div><span class="section-kicker">THE RELIC ARCHIVE</span><h2>Seven choices.<br>One legendary build.</h2></div>
+      <p>Your selections save automatically in this browser. Tap a relic to select it, or use the <b>i</b> button to inspect its effects.</p>
+    </section>
+    <div id="tiers" class="tiers"></div>
+    <section class="rejuvenated-panel" id="rejuvenatedPanel" hidden>
+      <div class="rejuvenated-gem">✦</div>
+      <div>
+        <span class="section-kicker">REJUVENATED BONUS</span>
+        <h3 id="rejuvenatedTitle">Choose one more relic</h3>
+        <p id="rejuvenatedCopy">Select any relic you did not choose from tiers 1–5.</p>
+      </div>
+      <button id="changeBonus" type="button">Choose bonus relic</button>
+    </section>
+    <section class="forge" id="forge">
+      <div><span class="section-kicker">YOUR LEGACY</span><h2 id="forgeTitle">Complete your build</h2><p id="forgeCopy">Choose one relic from each of the seven tiers to unlock your shareable relic card.</p></div>
+      <button id="download" disabled><span>Forge build card</span><small>DOWNLOAD PNG</small></button>
+    </section>
+    <p class="data-credit">Relic effects and icons from <a href="https://runescape.wiki/w/Equilibrium_League/Relics" target="_blank" rel="noreferrer">The RuneScape Wiki</a>, licensed under CC BY-NC-SA 3.0.</p>
+  </main>
+
+  <dialog id="relicDialog">
+    <button class="close" aria-label="Close">×</button><div id="dialogIcon" class="modal-icon"></div><span id="dialogTier" class="section-kicker"></span><h2 id="dialogName"></h2><div id="dialogText"></div><button id="modalSelect" class="modal-select"></button>
+  </dialog>
+  <div id="toast" role="status">Build card downloaded</div>
+  <canvas id="exportCanvas" width="1600" height="900" hidden></canvas>
+  <script src="icon-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
