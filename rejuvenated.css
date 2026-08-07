@@ -22,6 +22,11 @@
 .relic.bonus-eligible:hover { background: rgba(228,187,103,.2); }
 @keyframes bonusPulse { 50% { box-shadow: inset 0 0 0 1px rgba(228,187,103,.45); } }
 
+.tier.two .tier-options {
+  width: 100%;
+  max-width: none;
+}
+
 .rejuvenated-panel {
   margin-top: 20px;
   border: 1px solid rgba(228,187,103,.55);
@@ -135,9 +140,14 @@ dialog::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #f1c
 dialog::-webkit-scrollbar-corner { background: #071812; }
 .data-credit { margin: 24px 0 0; text-align: center; color: #5f7e71; font-size: 10px; letter-spacing: .04em; }
 .data-credit a { color: #9fbcaf; }
+.planner-actions { display: flex; gap: 8px; }
+#randomizePicks,
 #resetPicks { border: 1px solid rgba(151,218,186,.25); background: transparent; color: #91a99f; padding: 8px 11px; font: 700 8px Inter,sans-serif; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: .2s; }
-#resetPicks:hover { border-color: #e4bb67; color: #e4bb67; }
-@media (max-width: 560px) { #resetPicks { padding: 7px 8px; } #progressText { display: none; } }
+#randomizePicks:hover,
+#randomizePicks:focus-visible,
+#resetPicks:hover,
+#resetPicks:focus-visible { border-color: #e4bb67; color: #e4bb67; background: rgba(228,187,103,.06); outline: none; }
+@media (max-width: 560px) { #randomizePicks, #resetPicks { padding: 7px 8px; } #progressText { display: none; } }
 
 .hero nav {
   position: fixed;
