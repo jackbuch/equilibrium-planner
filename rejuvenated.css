@@ -69,6 +69,27 @@
 }
 
 .modal-select:disabled { filter: grayscale(1); opacity: .45; cursor: default; }
+#download,
+#modalSelect,
+#blessingModalSelect { transition: transform .2s, border-color .2s, background .2s, box-shadow .2s; }
+#download:not(:disabled):hover,
+#download:not(:disabled):focus-visible,
+#modalSelect:not(:disabled):hover,
+#modalSelect:not(:disabled):focus-visible,
+#blessingModalSelect:not(:disabled):hover,
+#blessingModalSelect:not(:disabled):focus-visible {
+  border-color: #f0ce83;
+  background: linear-gradient(135deg, #f1cf84, #bd8d3d);
+  box-shadow: 0 9px 24px rgba(228,187,103,.22), inset 0 0 0 1px rgba(255,239,194,.22);
+  transform: translateY(-2px);
+  outline: none;
+}
+#download:not(:disabled):active,
+#modalSelect:not(:disabled):active,
+#blessingModalSelect:not(:disabled):active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(228,187,103,.16);
+}
 html { scrollbar-gutter: stable; }
 body.modal-open {
   position: fixed;
