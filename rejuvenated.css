@@ -69,6 +69,16 @@
 }
 
 .modal-select:disabled { filter: grayscale(1); opacity: .45; cursor: default; }
+#download { transition: transform .2s, border-color .2s, background .2s, box-shadow .2s; }
+#download:not(:disabled):hover,
+#download:not(:disabled):focus-visible {
+  border-color: #f0ce83;
+  background: linear-gradient(135deg, #f1cf84, #bd8d3d);
+  box-shadow: 0 9px 24px rgba(228,187,103,.22), inset 0 0 0 1px rgba(255,239,194,.22);
+  transform: translateY(-2px);
+  outline: none;
+}
+#download:not(:disabled):active { transform: translateY(0); box-shadow: 0 3px 10px rgba(228,187,103,.16); }
 .relic-icon,.modal-icon { background: none; clip-path: none; filter: drop-shadow(0 8px 14px #020c09); }
 .relic-icon img,.modal-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .modal-icon { width: 112px; height: 98px; }
