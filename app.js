@@ -39,11 +39,11 @@ if(![1,2,3,4,5,6,7].every(tier=>selected[tier])||(selected[6]==='Rejuvenated'&&!
 }
 let bonusMode = selected[6] === 'Rejuvenated' && !bonusPick;
 const tiersEl=document.querySelector('#tiers'), dialog=document.querySelector('#relicDialog'); let activeRelic=null;
-const saveDialog=document.querySelector('#saveDialog');let pendingShareFile=null,pendingShareDataUrl=null,pendingPreviewUrl=null,pendingShareTitle='My Equilibrium Relic Build';
+const saveDialog=document.querySelector('#saveDialog'),linkDialog=document.querySelector('#linkDialog');let pendingShareFile=null,pendingShareDataUrl=null,pendingPreviewUrl=null,pendingShareTitle='My Equilibrium Relic Build',currentBuildLink='';
 let lockedScrollY=0;
 function lockPageScroll(){if(document.body.classList.contains('modal-open'))return;lockedScrollY=window.scrollY;document.body.style.setProperty('--locked-scroll-y',`-${lockedScrollY}px`);document.body.style.setProperty('--scrollbar-compensation',`${window.innerWidth-document.documentElement.clientWidth}px`);document.body.classList.add('modal-open')}
 function unlockPageScroll(){if(document.querySelector('dialog[open]')||!document.body.classList.contains('modal-open'))return;document.body.classList.remove('modal-open');document.body.style.removeProperty('--locked-scroll-y');document.body.style.removeProperty('--scrollbar-compensation');const previousBehavior=document.documentElement.style.scrollBehavior;document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,lockedScrollY);document.documentElement.style.scrollBehavior=previousBehavior}
-[dialog,saveDialog].forEach(modal=>modal.addEventListener('close',unlockPageScroll));
+[dialog,saveDialog,linkDialog].forEach(modal=>modal.addEventListener('close',unlockPageScroll));
 if(prefersNativeShare){document.querySelector('#download span').textContent='Save build card';document.querySelector('#download small').textContent='OPEN SHARE SHEET'}
 for(let tier=1;tier<=7;tier++){
   const choices=relics.filter(r=>r.tier===tier), section=document.createElement('section'); section.className=`tier ${choices.length===2?'two':''}`;
@@ -138,6 +138,7 @@ function update(){
     document.querySelector('#progressBar').style.width=`${count/7*100}%`;
   }
   document.querySelector('#download').disabled=!complete||!iconsReady;
+  document.querySelector('#shareRelics').disabled=!complete;
   const panel=document.querySelector('#rejuvenatedPanel');panel.hidden=!rejuvenated;
   if(rejuvenated){
     document.querySelector('#rejuvenatedTitle').textContent=bonusPick?bonusPick.name:'Choose one more relic';
@@ -149,8 +150,25 @@ function update(){
 }
 window.refreshRelicPlanner=update;
 refreshCards();update();
+document.querySelector('#shareRelics').onclick=()=>{
+  const code=['r'];
+  for(let tier=1;tier<=7;tier++){
+    const choices=relics.filter(item=>item.tier===tier);
+    code.push(choices.findIndex(item=>item.name===selected[tier])+1);
+  }
+  if(bonusPick){const choices=relics.filter(item=>item.tier===bonusPick.tier);code.push(bonusPick.tier,choices.findIndex(item=>item.name===bonusPick.name)+1)}
+  if(randomizedRelicBuild)code.push('x');
+  openBuildLinkDialog(window.EquilibriumShare.createBuildUrl(code.join('-')),'relic');
+};
 document.querySelector('#download').onclick=()=>{const c=document.querySelector('#exportCanvas'),x=c.getContext('2d'),grad=x.createLinearGradient(0,0,1600,900);grad.addColorStop(0,'#061d17');grad.addColorStop(.55,'#0d3b2d');grad.addColorStop(1,'#392914');x.fillStyle=grad;x.fillRect(0,0,1600,900);x.strokeStyle='#d7ae5b';x.lineWidth=3;x.strokeRect(34,34,1532,832);x.fillStyle='#e4bb67';x.font='600 24px Georgia';x.textAlign='center';x.fillText('LEAGUES II · EQUILIBRIUM',800,105);x.fillStyle='#eff8f2';x.font='600 62px Georgia';x.fillText('MY RELIC BUILD',800,180);x.fillStyle='#8fb4a3';x.font='18px Arial';x.fillText(bonusPick?'Seven tiers plus a Rejuvenated bonus pick.':'Seven choices. One legendary path through Gielinor.',800,220);if(randomizedRelicBuild)drawRandomizedBadge(x,1600);const chosen=[1,2,3,4,5,6,7].map(t=>relics.find(q=>q.name===selected[t])),images=chosen.map(r=>iconCache.get(r.icon));for(let t=1;t<=7;t++){const r=chosen[t-1],cx=150+(t-1)*217;x.fillStyle=t%2?'#0b2b22':'#102f25';x.fillRect(cx-92,270,184,360);x.strokeStyle='#396a57';x.strokeRect(cx-92,270,184,360);x.fillStyle='#d8b867';x.font='700 15px Arial';x.fillText(`TIER ${t}`,cx,310);drawImageContain(x,images[t-1],cx-68,335,136,136);x.fillStyle='#effaf4';x.font='600 17px Georgia';wrap(x,r.name,cx,505,150,22);x.fillStyle='#82aa98';x.font='700 10px Arial';wrap(x,r.tag.toUpperCase(),cx,568,150,15)}if(bonusPick){const b=relics.find(q=>q.name===bonusPick.name),bonusImg=iconCache.get(b.icon);x.fillStyle='#e4bb67';x.fillRect(400,665,800,82);drawImageContain(x,bonusImg,420,674,62,62);x.fillStyle='#14261e';x.font='700 13px Arial';x.fillText('REJUVENATED PICK',800,691);x.font='600 24px Georgia';x.fillText(`${b.name} · TIER ${b.tier}`,800,725)}x.fillStyle='#6f9787';x.font='13px Arial';x.fillText('FORGED WITH THE EQUILIBRIUM RELIC PLANNER',800,810);const dataUrl=c.toDataURL('image/png'),file=dataUrlToFile(dataUrl,'equilibrium-relic-build.png');if(isMobileDevice){openSavePreview(dataUrl,file);return}downloadDataUrl(dataUrl)};
 function showToast(message){const toast=document.querySelector('#toast');toast.textContent=message;toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove('show'),2500)}
+function openBuildLinkDialog(url,kind='relic'){currentBuildLink=url;const blessing=kind==='blessing';document.querySelector('#linkDialogKicker').textContent=blessing?'SHARE YOUR BLESSING PATH':'SHARE YOUR RELIC BUILD';document.querySelector('#linkDialogTitle').textContent=blessing?'Your blessing link is ready':'Your relic link is ready';document.querySelector('#buildLinkField').value=url;document.querySelector('#openBuildPage').href=url;linkDialog.showModal();lockPageScroll()}
+window.openBuildLinkDialog=openBuildLinkDialog;
+async function copyBuildLink(){try{await navigator.clipboard.writeText(currentBuildLink);showToast('Build link copied')}catch{const field=document.querySelector('#buildLinkField');field.focus();field.select();const copied=document.execCommand('copy');showToast(copied?'Build link copied':'Select the link and copy it manually')}}
+document.querySelector('#copyBuildLink').onclick=copyBuildLink;
+document.querySelector('#buildLinkField').onclick=event=>event.currentTarget.select();
+document.querySelector('#closeLinkDialog').onclick=()=>linkDialog.close();
+linkDialog.onclick=event=>{if(event.target===linkDialog)linkDialog.close()};
 function openSavePreview(dataUrl,file,kind='relic'){const blessing=kind==='blessing';pendingShareDataUrl=dataUrl;pendingShareFile=file;pendingShareTitle=blessing?'My Equilibrium Blessing Build':'My Equilibrium Relic Build';if(pendingPreviewUrl)URL.revokeObjectURL(pendingPreviewUrl);pendingPreviewUrl=URL.createObjectURL(file);document.querySelector('#saveKicker').textContent=blessing?'YOUR BLESSING BUILD':'YOUR RELIC BUILD';document.querySelector('#saveHeading').textContent=blessing?'Save your blessing card':'Save your build card';document.querySelector('#savePreview').alt=blessing?'Your Equilibrium blessing build card':'Your Equilibrium relic build card';document.querySelector('#savePreview').src=pendingPreviewUrl;document.querySelector('#shareBuild').textContent=navigator.canShare?.({files:[file]})?'Share / Save image':'Download to Files';saveDialog.showModal();lockPageScroll()}
 document.querySelector('#shareBuild').onclick=()=>{if(pendingShareFile&&navigator.share&&navigator.canShare?.({files:[pendingShareFile]})){navigator.share({title:pendingShareTitle,files:[pendingShareFile]}).catch(error=>{if(error.name!=='AbortError')showToast('Use press and hold on the image instead')});return}if(pendingShareDataUrl)downloadDataUrl(pendingShareDataUrl,pendingShareFile?.name)};
 document.querySelector('#closeSave').onclick=()=>saveDialog.close();saveDialog.onclick=event=>{if(event.target===saveDialog)saveDialog.close()};

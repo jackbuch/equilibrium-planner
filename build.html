@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071d18">
+  <title>Shared Equilibrium Build</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="build.css?v=3">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="shared-header">
+    <a class="brand" href="index.html"><span class="brand-mark">III</span><span>EQUILIBRIUM<br><small>LEAGUE PLANNER</small></span></a>
+    <a class="planner-link" href="index.html">Create your own build</a>
+  </header>
+
+  <main>
+    <section id="invalidBuild" class="invalid-build" hidden>
+      <span class="section-kicker">BUILD LINK ERROR</span>
+      <h1>This build link is incomplete.</h1>
+      <p>Ask the sender for a fresh link, or head back to the planner to create a new build.</p>
+      <a class="primary-action" href="index.html">Open the planner</a>
+    </section>
+
+    <article id="sharedBuild" class="shared-build" hidden>
+      <div class="build-heading">
+        <span id="buildKicker" class="section-kicker"></span>
+        <h1 id="buildTitle"></h1>
+        <p id="buildSubtitle"></p>
+        <span id="randomizedBadge" class="randomized-badge" hidden>Randomized build</span>
+      </div>
+      <div id="buildGrid" class="build-grid"></div>
+      <section id="bonusCard" class="bonus-card" hidden></section>
+      <div class="build-actions">
+        <button id="copyCurrentLink" type="button">Copy build link</button>
+        <a href="index.html">Plan another build</a>
+      </div>
+    </article>
+  </main>
+
+  <dialog id="buildInfoDialog">
+    <button id="closeBuildInfo" class="dialog-close" aria-label="Close">×</button>
+    <img id="buildInfoIcon" class="dialog-icon" alt="">
+    <span id="buildInfoLabel" class="section-kicker"></span>
+    <h2 id="buildInfoName"></h2>
+    <div id="buildInfoText" class="dialog-text"></div>
+  </dialog>
+  <div id="toast" role="status">Link copied</div>
+  <script src="share.js?v=2"></script>
+  <script src="build-info-data.js?v=2"></script>
+  <script src="build-page.js?v=6"></script>
+</body>
+</html>

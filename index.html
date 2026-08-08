@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=4" />
-  <link rel="stylesheet" href="rejuvenated.css?v=11" />
+  <link rel="stylesheet" href="rejuvenated.css?v=13" />
   <link rel="stylesheet" href="blessings.css?v=4" />
 </head>
 <body>
@@ -46,7 +46,7 @@
       </section>
       <section class="forge" id="forge">
         <div><span class="section-kicker">YOUR LEGACY</span><h2 id="forgeTitle">Complete your build</h2><p id="forgeCopy">Choose one relic from each of the seven tiers to unlock your shareable relic card.</p></div>
-        <button id="download" disabled><span>Forge build card</span><small>DOWNLOAD PNG</small></button>
+        <div class="forge-actions"><button id="shareRelics" class="share-link-button" disabled><span>Create share link</span><small>VIEW BUILD PAGE</small></button><button id="download" disabled><span>Forge build card</span><small>DOWNLOAD PNG</small></button></div>
       </section>
       <p class="data-credit">Relic effects and icons from <a href="https://runescape.wiki/w/Equilibrium_League/Relics" target="_blank" rel="noreferrer">The RuneScape Wiki</a>, licensed under CC BY-NC-SA 3.0.</p>
     </div>
@@ -65,7 +65,7 @@
       <div id="blessingTiers" class="tiers blessing-tiers"></div>
       <section class="forge blessing-forge" id="blessingForge">
         <div><span class="section-kicker">YOUR DIVINE PATH</span><h2 id="blessingForgeTitle">Complete your blessing path</h2><p id="blessingForgeCopy">Choose one blessing from each of the six standard tiers to reveal both God-tier blessings.</p></div>
-        <button id="downloadBlessings" disabled><span>Forge blessing card</span><small>DOWNLOAD PNG</small></button>
+        <div class="forge-actions"><button id="shareBlessings" class="share-link-button" disabled><span>Create share link</span><small>VIEW BUILD PAGE</small></button><button id="downloadBlessings" disabled><span>Forge blessing card</span><small>DOWNLOAD PNG</small></button></div>
       </section>
       <p class="data-credit">Blessing effects and icons from <a href="https://runescape.wiki/w/Equilibrium_League/Blessings" target="_blank" rel="noreferrer">The RuneScape Wiki</a>, licensed under CC BY-NC-SA 3.0.</p>
     </div>
@@ -90,12 +90,22 @@
     <div id="blessingDialogText"></div>
     <button id="blessingModalSelect" class="modal-select" type="button"></button>
   </dialog>
+  <dialog id="linkDialog" class="link-dialog">
+    <button id="closeLinkDialog" class="close" aria-label="Close">×</button>
+    <span id="linkDialogKicker" class="section-kicker">SHARE YOUR BUILD</span>
+    <h2 id="linkDialogTitle">Your build link is ready</h2>
+    <p>This static link opens a dedicated page with your current picks. No account or server storage is needed.</p>
+    <label for="buildLinkField">Shareable build URL</label>
+    <div class="link-field"><input id="buildLinkField" type="text" readonly><button id="copyBuildLink" type="button">Copy link</button></div>
+    <a id="openBuildPage" class="modal-select" href="build.html" target="_blank" rel="noreferrer">Open build page</a>
+  </dialog>
   <div id="toast" role="status">Build card downloaded</div>
   <canvas id="exportCanvas" width="1600" height="900" hidden></canvas>
   <canvas id="blessingCanvas" width="1600" height="1000" hidden></canvas>
+  <script src="share.js?v=2"></script>
   <script src="icon-data.js?v=2"></script>
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=11"></script>
   <script src="blessing-icon-data.js?v=1"></script>
-  <script src="blessings.js?v=3"></script>
+  <script src="blessings.js?v=5"></script>
 </body>
 </html>

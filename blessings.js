@@ -256,6 +256,7 @@ function updateBlessingPlanner() {
   document.querySelector('#orderCount').textContent = pathTotals.Order;
   document.querySelector('#godForecast').textContent = `God Tier I: ${firstGod ? `${firstGod.name} (${firstGod.path})` : 'awaiting Tiers 1–3'} · God Tier II: ${secondGod ? `${secondGod.name} (${secondGod.path})` : 'awaiting Tiers 4–6'}`;
   document.querySelector('#downloadBlessings').disabled = !complete || !blessingIconsReady;
+  document.querySelector('#shareBlessings').disabled = !complete;
   document.querySelector('#blessingForgeTitle').textContent = complete ? 'Your blessing path is complete' : 'Complete your blessing path';
   document.querySelector('#blessingForgeCopy').textContent = complete
     ? (prefersNativeShare ? 'Your divine path is ready. Open the share sheet to save or share it.' : 'Your six choices and both determined God-tier blessings are ready to forge.')
@@ -340,6 +341,16 @@ function wrapBlessingText(ctx, text, centerX, y, maxWidth, lineHeight) {
   rows.push(row.trim());
   rows.forEach((line, index) => ctx.fillText(line, centerX, y + index * lineHeight));
 }
+
+document.querySelector('#shareBlessings').onclick = () => {
+  const code = ['b'];
+  for (let tier = 1; tier <= 6; tier++) {
+    const choices = blessings.filter(item => item.kind === 'tier' && item.tier === tier);
+    code.push(choices.findIndex(item => item.name === selectedBlessings[tier]) + 1);
+  }
+  if (randomizedBlessingBuild) code.push('x');
+  openBuildLinkDialog(window.EquilibriumShare.createBuildUrl(code.join('-')), 'blessing');
+};
 
 document.querySelector('#downloadBlessings').onclick = () => {
   const canvas = document.querySelector('#blessingCanvas');
